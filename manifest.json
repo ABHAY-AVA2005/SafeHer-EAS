@@ -1,0 +1,21 @@
+{
+  "name": "SafeHer: Women's Safety App",
+  "short_name": "SafeHer",
+  "description": "Your personal safety companion with emergency alerts and fake call features.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f43f5e",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
