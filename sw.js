@@ -1,16 +1,15 @@
-const CACHE_NAME = 'safeher-cache-v1';
+const CACHE_NAME = 'safeher-cache-v3'; // Version 3 to force immediate update
 const urlsToCache = [
   './',
-  'index.html',
-  'style.css',
-  'app.js',
-  'manifest.json',
-  'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
-  'https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3'
+  './index.html',
+  './style.css',
+  './app.js',
+  './manifest.json'
+  // Removed external links (fonts, audio) to prevent CORS errors
+  // Removed icons because the folder is missing in your repo
 ];
 
-// Install event: Caches the essential assets
+// Install event: Caches only the files we know exist
 self.addEventListener('install', event => {
   console.log('[Service Worker] Installing...');
   event.waitUntil(
@@ -20,35 +19,32 @@ self.addEventListener('install', event => {
         return cache.addAll(urlsToCache);
       })
       .catch(err => {
-        console.error('[Service Worker] Failed to cache:', err);
+        console.error('[Service Worker] CRITICAL FAIL - Check your file paths:', err);
       })
   );
 });
 
-// Fetch event: Serves cached content if available
+// Fetch event: Serves from cache, falls back to network
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
         if (response) {
-          return response;
+          return response; // Hit cache
         }
-        return fetch(event.request);
-      }
-    )
+        return fetch(event.request); // Fallback to network
+      })
   );
 });
 
-// Activate event: Clears old caches
+// Activate event: Clears old broken caches
 self.addEventListener('activate', event => {
-  console.log('[Service Worker] Activating new service worker...');
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
-            console.log('[Service Worker] Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
