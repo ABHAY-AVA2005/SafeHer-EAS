@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <title>SafeHer - Women's Safety App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f43f5e">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  
+  <link rel="stylesheet" href="style.css"> 
+  <link rel="manifest" href="manifest.json"> 
+</head>
+<body>
+  <div class="bg-blur"></div>
+  
+  <div class="app-container">
+    <header class="app-header">
+      <h1 class="app-title">
+        <i class="ti ti-shield-lock"></i> SafeHer
+      </h1>
+      <button class="theme-toggle" id="themeToggle">
+        <i class="ti ti-sun"></i>
+      </button>
+    </header>
+
+    <main class="main-container">
+      <div id="home" class="page active">
+        <div class="card">
+          <h2>Your Safety, Our Priority</h2>
+          <p>Welcome to SafeHer, your personal safety companion. Use the emergency button below to quickly alert your contacts.</p>
+          
+          <button class="emergency-btn" id="emergencyBtn">
+            <i class="ti ti-alert-triangle" style="font-size: 2rem;"></i>
+          </button>
+          
+          <div class="grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+            <button class="btn btn-outline" onclick="navigateTo('emergency')">
+              <i class="ti ti-alert-circle"></i> Emergency
+            </button>
+            <button class="btn btn-outline" onclick="navigateTo('safety')">
+              <i class="ti ti-info-circle"></i> Safety Tips
+            </button>
+            <button class="btn btn-outline" onclick="navigateTo('timer')">
+              <i class="ti ti-hourglass"></i> Safety Timer
+            </button>
+            <button class="btn btn-outline" onclick="navigateTo('siren')">
+              <i class="ti ti-volume"></i> Siren Mode
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Quick Actions</h3>
+          <button class="btn btn-outline" onclick="navigateTo('fake-call')">
+            <i class="ti ti-phone-call"></i> Fake Call
+          </button>
+          <button class="btn btn-outline" onclick="navigateTo('profile')">
+            <i class="ti ti-user"></i> My Profile
+          </button>
+          <button class="btn btn-outline" id="installBtn" style="display:none;">
+            <i class="ti ti-device-mobile"></i> Install App
+          </button>
+        </div>
+      </div>
+
+      <div id="emergency" class="page">
+        <div class="card">
+          <h2><i class="ti ti-alert-triangle"></i> Emergency</h2>
+          <p>In case of emergency, your location will be shared with your emergency contacts.</p>
+          
+          <div class="form-group">
+            <label class="form-label">Emergency Contacts</label>
+            <input type="text" id="contact1" class="form-input" placeholder="Contact 1 (Name)">
+            <input type="tel" id="phone1" class="form-input" placeholder="Phone Number 1" style="margin-top: 0.5rem;">
+            
+            <div style="margin: 1rem 0;"></div>
+            
+            <input type="text" id="contact2" class="form-input" placeholder="Contact 2 (Name)">
+            <input type="tel" id="phone2" class="form-input" placeholder="Phone Number 2" style="margin-top: 0.5rem;">
+          </div>
+          
+          <button class="btn btn-primary" onclick="saveContacts()">
+            <i class="ti ti-device-floppy"></i> Save Contacts
+          </button>
+          
+          <div class="card" style="margin-top: 1.5rem; background: hsl(var(--muted));">
+            <h4>Your Current Location</h4>
+            <div id="location">Getting your location...</div>
+            <button class="btn btn-outline" style="margin-top: 1rem;" onclick="updateLocation()">
+              <i class="ti ti-refresh"></i> Refresh Location
+            </button>
+          </div>
+          
+          <a class="btn btn-outline" href="tel:112" style="margin-top: 1rem; display:inline-flex; align-items:center; gap:.5rem;">
+            <i class="ti ti-phone"></i> Call 112 (Emergency)
+          </a>
+          
+          <button class="btn btn-danger" style="margin-top: 1rem;" onclick="sendEmergencyAlert()">
+            <i class="ti ti-sos"></i> SEND EMERGENCY ALERT
+          </button>
+        </div>
+      </div>
+
+      <div id="safety" class="page">
+        <div class="card">
+          <h2><i class="ti ti-info-circle"></i> Safety Tips</h2>
+          
+          <div class="tip-card">
+            <h4>When Walking Alone</h4>
+            <p>Stay in well-lit areas, be aware of your surroundings, and avoid using headphones.</p>
+          </div>
+          
+          <div class="tip-card">
+            <h4>Public Transport</h4>
+            <p>Sit near the driver or in well-populated areas. Have your phone ready.</p>
+          </div>
+          
+          <div class="tip-card">
+            <h4>Ride Sharing</h4>
+            <p>Always check the license plate and driver details before entering. Share your ride status with friends.</p>
+          </div>
+          
+          <div class="tip-card">
+            <h4>At Home</h4>
+            <p>Keep doors and windows locked. Don't open the door to strangers.</p>
+          </div>
+          
+          <div class="tip-card">
+            <h4>Self-Defense</h4>
+            <p>Consider taking a self-defense class. Carry a personal alarm if legal in your area.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="fake-call" class="page">
+        <div class="card">
+          <h2><i class="ti ti-phone-call"></i> Fake Call</h2>
+          <p>Trigger a fake call to get out of uncomfortable situations.</p>
+          
+          <div class="fake-call" style="display: none; text-align: center;"> 
+            <div class="caller-avatar" style="width: 80px; height: 80px; border-radius: 50%; background: hsl(var(--muted)); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem;">
+              <i class="ti ti-user"></i>
+            </div>
+            <div class="caller-info">
+              <div class="caller-name" id="fakeCallerName">Mom</div>
+              <div class="call-status" id="callStatus">Incoming call...</div>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem;">
+              <button class="btn btn-danger" style="border-radius: 50%; width: 60px; height: 60px; padding: 0;" id="declineCall">
+                <i class="ti ti-phone-off" style="font-size: 1.5rem;"></i>
+              </button>
+              <button class="btn" style="background: #22c55e; color: white; border-radius: 50%; width: 60px; height: 60px; padding: 0;" id="answerCall">
+                <i class="ti ti-phone" style="font-size: 1.5rem;"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="form-group" style="margin-top: 2rem;">
+            <label class="form-label">Customize Caller</label>
+            <input type="text" id="callerName" class="form-input" placeholder="Caller Name" value="Mom">
+            <button class="btn btn-outline" style="margin-top: 0.75rem;" onclick="setupFakeCall()">
+              <i class="ti ti-device-mobile-message"></i> Test Call Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="timer" class="page">
+        <div class="card">
+          <h2><i class="ti ti-hourglass"></i> Safety Timer</h2>
+          <p>Set a timer. If you don't check-in before it ends, an SOS will be sent automatically.</p>
+          <div class="form-group">
+            <label class="form-label">Duration (minutes)</label>
+            <input type="number" id="timerMinutes" class="form-input" min="0.5" step="0.5" max="180" value="5">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Optional note (destination, activity)</label>
+            <input type="text" id="timerNote" class="form-input" placeholder="e.g., Walking to parking lot">
+          </div>
+          <button class="btn btn-primary" id="startTimerBtn"><i class="ti ti-player-play"></i> Start Timer</button>
+          <button class="btn btn-outline" id="cancelTimerBtn" disabled><i class="ti ti-square"></i> Cancel / I'm Safe</button>
+          <div class="card" style="margin-top:1rem; background:hsl(var(--muted));">
+            <h4>Status</h4>
+            <div id="timerDisplay">Timer not running</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="siren" class="page">
+        <div class="card">
+          <h2><i class="ti ti-volume"></i> Siren Mode</h2>
+          <p>Play a loud siren and flash the screen to attract attention.</p>
+          <button class="btn btn-danger" id="toggleSirenBtn"><i class="ti ti-player-play"></i> Start Siren</button>
+          <div class="grid" style="display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin-top: .75rem;">
+            <button class="btn btn-outline" id="startRecBtn"><i class="ti ti-microphone"></i> Start Recording</button>
+            <button class="btn btn-outline" id="stopRecBtn" disabled><i class="ti ti-player-stop"></i> Stop Recording</button>
+          </div>
+          <a id="saveRecLink" style="display:none; margin-top:.5rem;" download="evidence.webm">Save Recording</a>
+          <p style="margin-top:0.5rem; color:hsl(var(--muted-foreground));">Tip: Increase your device volume. Press again to stop.</p>
+        </div>
+      </div>
+
+      <div id="profile" class="page">
+        <div class="card">
+          <h2><i class="ti ti-user"></i> My Profile</h2>
+          
+          <div style="text-align: center; margin: 1.5rem 0;">
+            <div style="width: 100px; height: 100px; border-radius: 50%; background: hsl(var(--muted)); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">
+              <i class="ti ti-user"></i>
+            </div>
+            <h3 id="userName">User Name</h3>
+            <p style="color: hsl(var(--muted-foreground));">Edit your profile details</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="profileName" class="form-input" placeholder="Your Name">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Blood Type</label>
+            <select id="bloodType" class="form-input">
+              <option value="">Select Blood Type</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Medical Info</label>
+            <textarea id="medicalInfo" class="form-input" rows="3" placeholder="Any medical conditions or allergies?"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Shake-to-SOS</label>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <input type="checkbox" id="shakeToggle">
+              <span>Enable shake to trigger SOS</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Safety PIN</label>
+            <input type="password" id="pinInput" class="form-input" placeholder="Set/Update 4-digit PIN">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Timer Pre-Alert Notifications</label>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <input type="checkbox" id="notifToggle">
+              <span>Notify 10s before timer ends</span>
+            </div>
+          </div>
+          
+          <button class="btn btn-primary" onclick="saveProfile()">
+            <i class="ti ti-device-floppy"></i> Save Profile
+          </button>
+          
+          <div class="card" style="margin-top: 1.5rem; background: hsl(var(--muted));">
+            <h4>Emergency Information</h4>
+            <p>This information will be shared with emergency contacts when you send an alert.</p>
+            
+            <div style="margin-top: 1rem;">
+              <p><strong>Blood Type:</strong> <span id="displayBloodType">-</span></p>
+              <p><strong>Medical Info:</strong> <span id="displayMedicalInfo">-</span></p>
+            </div>
+          </div>
+          
+          <button class="btn btn-outline" style="margin-top: 1.5rem;" onclick="shareApp()">
+            <i class="ti ti-share"></i> Share App with Friends
+          </button>
+        </div>
+      </div>
+
+      <div id="incident-log" class="page">
+        <div class="card">
+          <h2><i class="ti ti-notebook"></i> Incident Log</h2>
+          <p>Local-only history of all safety events and actions.</p>
+          <div id="incidentList" style="margin-top: 1.5rem;"></div>
+          <button class="btn btn-outline" onclick="clearIncidentLog()" style="margin-top: 1rem;">
+            <i class="ti ti-trash"></i> Clear All Logs
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="#" class="nav-item active" data-page="home">
+        <i class="ti ti-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="#" class="nav-item" data-page="emergency">
+        <i class="ti ti-alert-triangle"></i>
+        <span>Emergency</span>
+      </a>
+      <a href="#" class="nav-item" data-page="safety">
+        <i class="ti ti-info-circle"></i>
+        <span>Safety</span>
+      </a>
+      <a href="#" class="nav-item" data-page="timer">
+        <i class="ti ti-hourglass"></i>
+        <span>Timer</span>
+      </a>
+      <a href="#" class="nav-item" data-page="profile">
+        <i class="ti ti-user"></i>
+        <span>Profile</span>
+      </a>
+      <a href="#" class="nav-item" data-page="incident-log">
+        <i class="ti ti-notebook"></i>
+        <span>Log</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- PIN Modal -->
+  <div id="pinModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="max-width:400px; width:90%; margin:0;">
+      <h3>Enter Safety PIN</h3>
+      <p style="color:hsl(var(--muted-foreground)); margin-bottom:1rem;">Enter your 4-digit PIN to stop siren and send silent SOS</p>
+      <input type="password" id="pinEntry" class="form-input" placeholder="Enter PIN" maxlength="4" style="margin-bottom:1rem;">
+      <div style="display:flex; gap:0.75rem;">
+        <button class="btn btn-primary" id="pinSubmit" style="flex:1;">Confirm</button>
+        <button class="btn btn-outline" id="pinCancel" style="flex:1;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
