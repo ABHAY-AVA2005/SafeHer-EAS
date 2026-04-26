@@ -126,5 +126,5 @@ Special thanks to open web technologies and the developer community for empoweri
 ## 📫 Contact
 
 For suggestions, feedback, or collaboration:  
-📧 **abhay.ava2005@gmail.com**  
+📧 **abhayvarshit2005@gmail.com**  
 🔗 [Live Demo](https://abhay-ava2005.github.io/SafeHer-EAS/) | [GitHub Repository](https://github.com/abhay-ava2005/SafeHer-EAS)
